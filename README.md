@@ -55,7 +55,7 @@ The updated greeting will be stored on the blockchain, and the page will display
 
 ## Author
 
-Shubham kumar
+Supratik mishra
 
 ## License
 
