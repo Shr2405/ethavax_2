@@ -5,56 +5,56 @@ pragma solidity ^0.8.9;
 
 contract Assessment {
     address payable public owner;
-    uint256 public Rating;
+    uint256 public Speeding;
 
-    event PositiveRating(uint256 Rate);
-    event NegativeRating(uint256 Rate);
+    event IncreaseSpeed(uint256 Speed);
+    event DecreaseSpeed(uint256 Speed);
 
     constructor(uint initBalance) payable {
         owner = payable(msg.sender);
-        Rating = initBalance;
+        Speeding = initBalance;
     }
 
     function getBalance() public view returns(uint256){
-        return Rating;
+        return Speeding;
     }
 
-    function Positiverating(uint256 _Rate) public payable {
-        uint _PreviousRating = Rating;
+    function Incresespeed(uint256 _Speed) public payable {
+        uint _PreviousSpeed = Speeding;
 
         // make sure this is the owner
         require(msg.sender == owner, "You are not the owner of this account");
 
         // perform transaction
-        Rating += _Rate;
+        Speeding += _Speed;
 
         // assert transaction completed successfully
-        assert(Rating == _PreviousRating + _Rate);
+        assert(Speeding == _PreviousSpeed + _Speed);
 
         // emit the event
-        emit PositiveRating(_Rate);
+        emit IncreaseSpeed(_Speed);
     }
 
     // custom error
-    error InsufficientRating(uint256 Rating, uint256 NegativeRatingRate);
+    error InsufficientSpeed(uint256 Speeding, uint256 NegativeRatingRate);
 
-    function Negativerating(uint256 _NegativeRatingRate) public {
+    function Negativerating(uint256 _NegativeSpeed) public {
         require(msg.sender == owner, "You are not the owner of this account");
-        uint _PreviousRating = Rating;
-        if (Rating < _NegativeRatingRate) {
-            revert InsufficientRating({
-                Rating: Rating,
-                NegativeRatingRate: _NegativeRatingRate
+        uint _PreviousSpeed = Speeding;
+        if (Speeding < _NegativeSpeed) {
+            revert InsufficientSpeed({
+                Speeding: Speeding,
+                NegativeRatingRate: _NegativeSpeed
             });
         }
 
-        // NegativeRating the given Rate
-        Rating -= _NegativeRatingRate;
+        // DecreaseSpeed the given Speed
+        Speeding -= _NegativeSpeed;
 
-        // assert the Rating is correct
-        assert(Rating == (_PreviousRating - _NegativeRatingRate));
+        // assert the Speeding is correct
+        assert(Speeding == (_PreviousSpeed - _NegativeSpeed));
 
         // emit the event
-        emit NegativeRating(_NegativeRatingRate);
+        emit DecreaseSpeed(_NegativeSpeed);
     }
 }
