@@ -19,8 +19,8 @@ contract Assessment {
         return Speeding;
     }
 
-    function Incresespeed(uint256 _Speed) public payable {
-        uint _PreviousSpeed = Speeding;
+    function Increasespeed(uint256 _Speed) public payable {
+        uint _Previous = Speeding;
 
         // make sure this is the owner
         require(msg.sender == owner, "You are not the owner of this account");
@@ -29,32 +29,32 @@ contract Assessment {
         Speeding += _Speed;
 
         // assert transaction completed successfully
-        assert(Speeding == _PreviousSpeed + _Speed);
+        assert(Speeding == _Previous + _Speed);
 
         // emit the event
         emit IncreaseSpeed(_Speed);
     }
 
     // custom error
-    error InsufficientSpeed(uint256 Speeding, uint256 NegativeRatingRate);
+    error InsufficientRating(uint256 Speeding, uint256 Negative);
 
-    function Negativerating(uint256 _NegativeSpeed) public {
+    function Decreasespeed(uint256 _Negative) public {
         require(msg.sender == owner, "You are not the owner of this account");
-        uint _PreviousSpeed = Speeding;
-        if (Speeding < _NegativeSpeed) {
-            revert InsufficientSpeed({
+        uint _Previous = Speeding;
+        if (Speeding < _Negative) {
+            revert InsufficientRating({
                 Speeding: Speeding,
-                NegativeRatingRate: _NegativeSpeed
+                Negative: _Negative
             });
         }
 
         // DecreaseSpeed the given Speed
-        Speeding -= _NegativeSpeed;
+        Speeding -= _Negative;
 
         // assert the Speeding is correct
-        assert(Speeding == (_PreviousSpeed - _NegativeSpeed));
+        assert(Speeding == (_Previous - _Negative));
 
         // emit the event
-        emit DecreaseSpeed(_NegativeSpeed);
+        emit DecreaseSpeed(_Negative);
     }
 }
